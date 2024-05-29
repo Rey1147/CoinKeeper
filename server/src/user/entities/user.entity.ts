@@ -28,5 +28,4 @@ export class User {
 
   @UpdateDateColumn()
   updateAt: Date
-
 }
