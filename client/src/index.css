@@ -29,11 +29,17 @@
         @apply max-w-[1000px];
     }
 }
-/*@layer utilities {*/
-/*    .btn-red {*/
-/*        @apply bg-rose-900 hover: bg-rose-800;*/
-/*    }*/
-/*    .btn-green {*/
-/*        @apply bg-green-660 hover: bg-green-800*/
-/*    }*/
-/*}*/
+@layer utilities {
+    .btn-red {
+        @apply bg-rose-900
+    }
+    .btn-red:hover {
+        @apply bg-rose-800
+    }
+    .btn-green {
+        @apply bg-green-660
+    }
+    .btn-green:hover {
+        @apply bg-green-800
+    }
+}
