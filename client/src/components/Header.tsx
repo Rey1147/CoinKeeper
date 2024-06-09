@@ -7,7 +7,7 @@ import {logout} from "../store/user/userSlice.ts";
 import {removeTokenFromLocalStorage} from "../helper/localstorsge.helper.ts";
 import {toast} from "react-toastify";
 
-type RouteProps = {
+interface RouteProps {
     path: string,
     name: string
 }

@@ -5,6 +5,7 @@ import Home from "../pages/Home.tsx";
 import Transaction from "../pages/Transaction.tsx";
 import Categories from "../pages/Categories.tsx";
 import Auth from "../pages/Auth.tsx";
+import {ProtectedRoute} from "../components/ProtectedRoute.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -18,11 +19,19 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'transactions',
-                element: <Transaction/>
+                element: (
+                    <ProtectedRoute>
+                        <Transaction/>
+                    </ProtectedRoute>
+                )
             },
             {
                 path: 'categories',
-                element: <Categories/>
+                element: (
+                    <ProtectedRoute>
+                        <Categories/>
+                    </ProtectedRoute>
+                )
             },
             {
                 path: 'auth',
