@@ -20,3 +20,17 @@ export interface IResponseUserData {
     token: string
     user: IResponseUser
 }
+
+export interface ICategory {
+    title: string
+    id: number
+    createdAt: string
+    updatedAt: string
+    transaction: []
+}
+
+export interface ICategoryModal {
+    type: 'post' | 'patch',
+    id?: number,
+    setVisibleModal: (visible: boolean) => void
+}

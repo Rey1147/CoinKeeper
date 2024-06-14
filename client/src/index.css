@@ -20,10 +20,10 @@
 /*}*/
 @layer components {
     .btn {
-        @apply flex gap-2 items-center text-white py-2 px-4 rounded-md;
+        @apply disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed flex gap-2 items-center text-white py-2 px-4 rounded-md;
     }
     .input {
-        @apply bg-transparent p-2 border bg-slate-700 placeholder:text-white rounded-md outline-none focus:border-slate-300
+        @apply bg-transparent p-2 border bg-slate-900 placeholder:text-white rounded-md outline-none focus:border-slate-300
     }
     .container {
         @apply max-w-[1000px];
