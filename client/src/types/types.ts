@@ -34,3 +34,11 @@ export interface ICategoryModal {
     id?: number,
     setVisibleModal: (visible: boolean) => void
 }
+
+export interface IResponseTransactionLoader {
+    categories: ICategory[]
+}
+
+
+
+
