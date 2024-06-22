@@ -39,6 +39,13 @@ export interface IResponseTransactionLoader {
     categories: ICategory[]
 }
 
+export interface INewTransaction {
+    title: string,
+    amount: number,
+    category: ICategory[],
+    type: 'post' | 'patch'
+}
+
 
 
 

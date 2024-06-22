@@ -11,7 +11,7 @@ const TransactionForm: FC = () => {
             <Form
                 className='grid gap-2'
                 method='post'
-                action='/transaction'
+                action='/transactions'
             >
                 <label className='grid' htmlFor='title'>
                     <span>Title</span>
