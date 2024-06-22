@@ -26,7 +26,7 @@ export interface ICategory {
     id: number
     createdAt: string
     updatedAt: string
-    transaction: []
+    transaction?: []
 }
 
 export interface ICategoryModal {
@@ -37,6 +37,7 @@ export interface ICategoryModal {
 
 export interface IResponseTransactionLoader {
     categories: ICategory[]
+    transactions: ITransaction[]
 }
 
 export interface INewTransaction {
@@ -44,6 +45,16 @@ export interface INewTransaction {
     amount: number,
     category: ICategory[],
     type: 'post' | 'patch'
+}
+
+export interface ITransaction {
+    id: number
+    title: string
+    amount: number
+    type: string
+    createdAt: string
+    updatedAt: string
+    category: ICategory
 }
 
 

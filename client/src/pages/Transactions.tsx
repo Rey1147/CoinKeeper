@@ -3,11 +3,15 @@ import TransactionForm from "../components/TransactionForm.tsx";
 import {instance} from "../api/axios.api.ts";
 import {ICategory, INewTransaction} from "../types/types.ts";
 import {toast} from "react-toastify";
+import TransactionTable from "../components/TransactionTable.tsx";
 
 export const transactionLoader = async () => {
     const categories = await instance.get<ICategory[]>('/categories')
+    const transactions = await instance.get('/transactions')
+
     const data = {
-        categories: categories.data
+        categories: categories.data,
+        transactions: transactions.data
     }
     return data
 }
@@ -27,7 +31,11 @@ export const transactionAction = async ({ request }: any) => {
             return null
         }
         case 'DELETE': {
-
+            const formData = await request.formData()
+            const transactionId = formData.get('id')
+            await instance.delete(`/transactions/transaction/${transactionId}`)
+            toast.success('Transaction deleted')
+            return null
         }
     }
 }
@@ -57,6 +65,10 @@ const Transactions: FC = () => {
                     </div>
                 </div>
             </div>
+
+            <h1 className='my-5'>
+                <TransactionTable/>
+            </h1>
         </>
     )
 }
