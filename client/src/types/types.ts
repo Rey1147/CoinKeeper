@@ -38,6 +38,8 @@ export interface ICategoryModal {
 export interface IResponseTransactionLoader {
     categories: ICategory[]
     transactions: ITransaction[]
+    totalIncome: number
+    totalExpense: number
 }
 
 export interface INewTransaction {
@@ -61,5 +63,13 @@ export interface ITransactionTable {
     limit: number
 }
 
+export interface IChart {
+    totalIncome: number
+    totalExpense: number
+}
 
+export interface IChartData {
+    value: number
+    name: string
+}
 

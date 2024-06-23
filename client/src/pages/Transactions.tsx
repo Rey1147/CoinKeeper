@@ -1,17 +1,24 @@
 import {FC} from "react";
 import TransactionForm from "../components/TransactionForm.tsx";
 import {instance} from "../api/axios.api.ts";
-import {ICategory, INewTransaction} from "../types/types.ts";
+import {ICategory, INewTransaction, IResponseTransactionLoader, ITransaction} from "../types/types.ts";
 import {toast} from "react-toastify";
 import TransactionTable from "../components/TransactionTable.tsx";
+import {useLoaderData} from "react-router-dom";
+import {FormatToUSD} from "../helper/amount.helper.ts";
+import Chart from "../components/Chart.tsx";
 
 export const transactionLoader = async () => {
     const categories = await instance.get<ICategory[]>('/categories')
-    const transactions = await instance.get('/transactions')
+    const transactions = await instance.get<ITransaction[]>('/transactions')
+    const totalIncome = await instance.get<number>('/transactions/income/find')
+    const totalExpense = await instance.get<number>('/transactions/expense/find')
 
     const data = {
         categories: categories.data,
-        transactions: transactions.data
+        transactions: transactions.data,
+        totalIncome: totalIncome.data,
+        totalExpense: totalExpense.data
     }
     return data
 }
@@ -41,6 +48,9 @@ export const transactionAction = async ({ request }: any) => {
 }
 
 const Transactions: FC = () => {
+    const {totalIncome, totalExpense} = useLoaderData() as IResponseTransactionLoader
+
+
     return (
         <>
             <div className='grid grid-cols-3 gap-4 mt-4 items-start'>
@@ -48,20 +58,23 @@ const Transactions: FC = () => {
                     <TransactionForm/>
                 </div>
 
-                <div className='rounded-md bg-slate-800 p-3'>
-                    <div className='grid grid-cols-2 gap-3'>
+                <div className='flex flex-col items-center'>
+                    <div className='grid grid-cols-2 gap-3 rounded-md bg-slate-800 p-3'>
                         <div>
                             <p className='uppercase text-md font-bold text-center'>
                                 Total Income:
                             </p>
-                            <p className='bg-green-600 p-1 rounded-sm text-center mt-2'> 1000$ </p>
+                            <p className='bg-green-600 p-1 rounded-sm text-center mt-2'> {FormatToUSD.format(totalIncome)} </p>
                         </div>
                         <div>
                             <p className='uppercase text-md font-bold text-center'>
                                 Total Expense:
                             </p>
-                            <p className='bg-red-500 p-1 rounded-sm text-center mt-2'> 1000$ </p>
+                            <p className='bg-red-500 p-1 rounded-sm text-center mt-2'> {FormatToUSD.format(totalExpense)} </p>
                         </div>
+                    </div>
+                    <div className='mt-2 rounded-md bg-slate-800 p-6'>
+                        <Chart totalIncome={totalIncome} totalExpense={totalExpense}/>
                     </div>
                 </div>
             </div>
