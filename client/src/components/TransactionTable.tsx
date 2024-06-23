@@ -1,15 +1,50 @@
-import {FC} from "react";
+import {FC, useEffect, useState} from "react";
 import {FaTrash} from "react-icons/fa";
 import {Form, useLoaderData} from "react-router-dom";
-import {IResponseTransactionLoader} from "../types/types.ts";
+import {IResponseTransactionLoader, ITransaction, ITransactionTable} from "../types/types.ts";
 import {FormatDate} from "../helper/date.helper.ts";
 import {FormatToUSD} from "../helper/amount.helper.ts";
+import {instance} from "../api/axios.api.ts";
+import ReactPaginate from "react-paginate";
 
-const TransactionTable: FC = () => {
+
+
+const TransactionTable: FC<ITransactionTable> = ({ limit = 4 }) => {
     const { transactions } = useLoaderData() as IResponseTransactionLoader
+
+    const [data, setData] = useState<ITransaction[]>([])
+    const [currentPage, setCurrentPage] = useState<number>(1)
+    const [totelPages, setTotelPages] = useState<number>(0)
+
+    const fetchTransactions = async (page: number) => {
+        const response = await instance.get(`/transactions/pagination?page=${page}&limit=${limit}`)
+        setData(response.data)
+        setTotelPages(Math.ceil(transactions.length / limit))
+    }
+
+    const handlePageChange = (selectedItem: {selected: number}) => {
+        setCurrentPage(selectedItem.selected + 1)
+    }
+
+    useEffect(() => {
+        fetchTransactions(currentPage)
+    }, [currentPage, transactions])
 
     return (
         <>
+            <ReactPaginate
+                className='flex gap-3 justify-end mt-4 items-center'
+                activeClassName='bg-blue-600 rounded-md'
+                pageLinkClassName='text-white text-xs py-1 px-2 rounded-sm'
+                previousClassName='text-white py-1 px-2 bg-slate-800 rounded-sm text-xs'
+                nextClassName='text-white py-1 px-2 bg-slate-800 rounded-sm text-xs'
+                disabledClassName='text-white/50 cursor-not-allowed'
+                disabledLinkClassName='text-slate-600 cursor-not-allowed'
+                pageCount={totelPages}
+                pageRangeDisplayed={1}
+                marginPagesDisplayed={1}
+                onPageChange={handlePageChange}
+            />
             <div className='bg-slate-800 px-8 py-4 mt-4 rounded-md'>
                 <table className='w-full'>
                     <thead>
@@ -23,7 +58,7 @@ const TransactionTable: FC = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {transactions.map((transaction, index) => (
+                        {data?.map((transaction, index) => (
                             <tr key={index}>
                                 <td> {index + 1} </td>
                                 <td> {transaction.title} </td>

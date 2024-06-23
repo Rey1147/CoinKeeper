@@ -57,6 +57,9 @@ export interface ITransaction {
     category: ICategory
 }
 
+export interface ITransactionTable {
+    limit: number
+}
 
 
 
